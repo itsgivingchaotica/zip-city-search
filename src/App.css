@@ -18,6 +18,17 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.navbar {
+  margin: 0 auto;
+  z-index: 10;
+  border-width: 0.3rem;
+  box-shadow: 0 2px 4px 2px var(--dark-orange-web);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

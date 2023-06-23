@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import "../../App.css"
 
 const AnimatedTextCharacter = ({ text }) => {
   const letters = Array.from(text);
@@ -26,7 +27,7 @@ const AnimatedTextCharacter = ({ text }) => {
     hidden: {
       opacity: 0,
       x: -20,
-      y: 10,
+      y: 11,
       transition: {
         type: "spring",
         damping: 12,
@@ -37,13 +38,18 @@ const AnimatedTextCharacter = ({ text }) => {
 
   return (
     <motion.div
-      style={{ overflow: "hidden", display: "flex", fontSize: "2rem" }}
+      style={{ overflow: "hidden", display: "flex", fontSize: "2rem", minWidth: "400px" }}
       variants={container}
       initial="hidden"
       animate="visible"
     >
       {letters.map((letter, index) => (
-        <motion.span variants={child} key={index}>
+        <motion.span variants={child} key={index} style={{
+            fontSize: index >= 13 && index <= 18 ? "2.8rem" : "1.8rem", // Apply bold style to index 5-9
+            color: index >= 13 && index <= 18 ? "var(--gamboge)" : "black", // Apply italic style to index 5-9
+            display: 'flex',
+            alignItems: 'center'
+          }}>
           {letter === " " ? "\u00A0" : letter}
         </motion.span>
       ))}
