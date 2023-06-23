@@ -5,13 +5,18 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --alice-blue: #E9F3F9ff;
+  --gamboge: #F5A530ff;
+  --oxford-blue: #101C42ff;
+  --bondi-blue: #058FB2ff;
+  --dark-orange-web: #FF8E27ff;
+  background-color: var(--alice-blue);
 }
 
 a {
@@ -29,6 +34,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: 
 }
 
 h1 {
