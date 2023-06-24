@@ -1,5 +1,5 @@
 import React, { useEffect, useRef} from 'react'
-import { com } from "../../ui"
+import { com } from "../../ui"f
 import '../../styles/logo.css'
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
             </div>
         </div>
         <div style={{transform:'translateY(50%)',display:'flex'}}>
-        <com.SearchForm />
+        <com.SearchForm handleSearchEngine={handleSearchEngine}/>
         </div>
         </div>
     )

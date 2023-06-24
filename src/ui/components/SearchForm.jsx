@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
 import TextField from '@mui/material/TextField'
@@ -12,6 +13,7 @@ const SearchForm = ({handleSearchEngine}) => {
 
     const [alignment, setAlignment] = useState('zip')
     const [searchTerm, setSearchTerm] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
   const handleChangeCategory = (event, newAlignment) => {
     setAlignment(newAlignment)
@@ -23,10 +25,12 @@ const SearchForm = ({handleSearchEngine}) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setIsLoading(true)
     if (searchTerm.trim() != ''){
         handleSearchEngine();
         navigateTo(`/results?query=${searchTerm}`);
     }
+    setIsLoading(false)
   }
 
   return (
