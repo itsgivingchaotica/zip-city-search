@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Mallanna&display=swap');
+
+.animation{
+    font-family: 'Mallanna', sans-serif;
+    z-index: 3;
+    margin-right: 700px;
+    transform: translateY(-100%);
+}
+
+body{
+    background-image: url(.././smartphone-map.jpg);
+}

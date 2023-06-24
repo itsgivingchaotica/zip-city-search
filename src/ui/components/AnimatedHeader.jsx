@@ -9,7 +9,7 @@ const AnimatedTextCharacter = ({ text }) => {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.03, delayChildren: 0.04 * i },
+      transition: { staggerChildren: 0.05, delayChildren: 0.05 * i },
     }),
   };
 
@@ -45,10 +45,11 @@ const AnimatedTextCharacter = ({ text }) => {
     >
       {letters.map((letter, index) => (
         <motion.span variants={child} key={index} style={{
-            fontSize: index >= 13 && index <= 18 ? "2.8rem" : "1.8rem", // Apply bold style to index 5-9
-            color: index >= 13 && index <= 18 ? "var(--gamboge)" : "black", // Apply italic style to index 5-9
+            fontSize: index >= 13 && index <= 18 ? "3rem" : "2rem", // apply larger font to keyword
+            color: index >= 13 && index <= 18 ? "var(--oxford-blue)" : "white", //apply pop color
+            fontWeight: index >= 13 && index <= 18 ? "bold" : "normal",
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
           }}>
           {letter === " " ? "\u00A0" : letter}
         </motion.span>
