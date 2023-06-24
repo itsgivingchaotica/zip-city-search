@@ -10,8 +10,10 @@ export default function Home() {
             <div className="animation">
             <com.AnimatedHeader text="Find exactly where you're looking for!"/>
             </div>
-            </div>
-            <com.SearchForm/>
+        </div>
+        <div style={{transform:'translateY(50%)',display:'flex'}}>
+        <com.SearchForm />
+        </div>
         </div>
     )
         
