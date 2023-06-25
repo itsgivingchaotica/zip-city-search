@@ -27,3 +27,5 @@ const ZipList = () => {
         </Card>
     )
 }
+
+export default ZipList
