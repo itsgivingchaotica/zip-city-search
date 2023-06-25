@@ -33,3 +33,5 @@ enthumbs.db
 Icon?
 Thumbs.db
 *.DS_Store
+
+.env*
