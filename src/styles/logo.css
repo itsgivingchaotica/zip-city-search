@@ -1,12 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Mallanna&display=swap');
+.homepage {
+    background-image: url(.././smartphone-map.jpg);
+    min-height: 100vh;
+    
+}
 
-.animation{
+.animation {
     font-family: 'Mallanna', sans-serif;
     z-index: 3;
     margin-right: 700px;
-    transform: translateY(-30%);
+    transform: translateY(400%);
 }
 
-body{
-    background-image: url(.././smartphone-map.jpg);
+#logo-animate{
+    margin-left: 50px;
 }
