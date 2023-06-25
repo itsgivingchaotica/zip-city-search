@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -6,17 +6,21 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
+import { SearchContext } from '../../SearchContext.js'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const SearchForm = ({handleSearchEngine}) => {
 
+    const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
+
     const navigateTo = useNavigate();
 
-    const [alignment, setAlignment] = useState('zip')
-    const [searchTerm, setSearchTerm] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-  const handleChangeCategory = (event, newAlignment) => {
-    setAlignment(newAlignment)
+    const [isFailedSearch, setIsFailedSearch] = useState(false)
+
+  const handleChangeCategory = (e, newSearchType) => {
+    setSearchType(newSearchType)
   };
 
   const handleInput = (e, newSearchTerm) => {
@@ -24,7 +28,10 @@ const SearchForm = ({handleSearchEngine}) => {
   }
 
   const handleSearch = (e) => {
-    e.preventDefault();
+    if (searchTerm == ''){
+        setIsFailedSearch(true);
+        return;
+    }
     setIsLoading(true)
     if (searchTerm.trim() != ''){
         handleSearchEngine();
@@ -37,7 +44,7 @@ const SearchForm = ({handleSearchEngine}) => {
     <>
     <ToggleButtonGroup
       color="primary"
-      value={alignment}
+      value={searchType}
       exclusive
       onChange={handleChangeCategory}
       aria-label="Platform" 
@@ -49,7 +56,7 @@ const SearchForm = ({handleSearchEngine}) => {
     </ToggleButtonGroup>
     <TextField 
         value={searchTerm} 
-        label={alignment==='zip' ? "Try 10002" : alignment==='city' ? "Try Denver" : "Try Maryland"}
+        label={searchType==='zip' ? "Try 10002" : searchType==='city' ? "Try Denver" : "Try Maryland"}
         onChange={(e) => handleInput(e)}
         sx={{
     '& .MuiInputBase-input': {
@@ -58,11 +65,23 @@ const SearchForm = ({handleSearchEngine}) => {
     }}
         >
     </TextField>
-    <Button onClick={handleSearch}
+    {isFailedSearch ? (<Button
+      variant="contained"
+      sx={{
+    ':focus': {
+      backgroundColor: 'red',
+    },
+  }}>
+    <ErrorOutlineIcon/>
+    </Button>) : (<Button onClick={handleSearch}
       variant="contained" 
-      sx={{backgroundColor: 'green'}}>
+      sx={{
+    ':focus': {
+      backgroundColor: 'green',
+    },
+  }}>
         {isLoading ? <CircularProgress color="inherit" /> : <SearchIcon />}
-    </Button>
+    </Button>)}
     </>
   );
     
