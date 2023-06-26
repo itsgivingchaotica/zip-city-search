@@ -7,25 +7,7 @@ import '../../styles/logo.css'
 
 export default function Home() {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm, set } = useContext(SearchContext)
-
-    const handleSearchEngine = async() => {
-    try {
-        if (searchType === 'zip'){
-        const data = await findCitiesByZipcode(searchTerm);
-        console.log(data);
-        } else if (searchType === 'state') {
-        const data = await findZipcodesByState(searchTerm);
-        console.log(data);
-        } else {
-        let zipDistanceSearch = searchTerm.split('-');
-        const data = await findDistanceBetweenZipcodes(zipDistanceSearch[0],zipDistanceSearch[1]);
-        console.log(data);
-        }
-    } catch (error) {
-      throw error
-    }
-  };
+    const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
 
     return (
         <ErrorBoundary
