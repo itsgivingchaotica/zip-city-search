@@ -8,6 +8,11 @@ import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import { SearchContext } from '../../SearchContext.js'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import states from '../../helpers/states.js'
 
 const SearchForm = ({handleSearchEngine}) => {
 
@@ -16,29 +21,57 @@ const SearchForm = ({handleSearchEngine}) => {
     const navigateTo = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false)
-
     const [isFailedSearch, setIsFailedSearch] = useState(false)
+    const [firstZip, setFirstZip] = useState('')
+    const [secondZip, setSecondZip] = useState('')
 
-  const handleChangeCategory = (e, newSearchType) => {
-    setSearchType(newSearchType)
+  const handleFirstZip = (e) => {
+    setFirstZip(e.target.value)
+  }
+
+  const handleSecondZip = (e) => {
+    setSecondZip(e.target.value)
+  }
+
+  const handleChangeCategory = (e) => {
+    setSearchType(e.target.value)
   };
 
-  const handleInput = (e, newSearchTerm) => {
-    setSearchTerm(newSearchTerm)
+  const handleInput = (e) => {
+    setSearchTerm(e.target.value)
   }
 
-  const handleSearch = (e) => {
-    if (searchTerm == ''){
+ const handleSearch = () => {
+  try {
+    if (searchType === 'zip' || searchType === 'state') {
+      if (searchTerm === '') {
         setIsFailedSearch(true);
         return;
+      }
+      setIsLoading(true);
+    } else {
+      if (firstZip.length !== 5 || secondZip.length !== 5) {
+        setIsFailedSearch(true);
+        return;
+      }
+      let zipcodes = `${firstZip}-${secondZip}`;
+      setSearchTerm(zipcodes);
+      setIsLoading(true);
     }
-    setIsLoading(true)
-    if (searchTerm.trim() != ''){
-        handleSearchEngine();
-        navigateTo(`/results?query=${searchTerm}`);
+
+    if (searchTerm.trim() !== '') {
+      handleSearchEngine();
+      navigateTo(`/results?query=${searchTerm}`);
     }
-    setIsLoading(false)
+
+    setIsLoading(false);
+  } catch (error) {
+    // Handle the error appropriately (e.g., show an error message)
+    throw new Error(error.message);
   }
+};
+
+console.log(searchTerm);
 
   return (
     <>
@@ -51,12 +84,16 @@ const SearchForm = ({handleSearchEngine}) => {
       sx={{backgroundColor:"white"}}
     >
       <ToggleButton value="zip">Zip</ToggleButton>
-      <ToggleButton value="city">City</ToggleButton>
       <ToggleButton value="state">State</ToggleButton>
+      <ToggleButton value="zipsDistance">Distance</ToggleButton>
     </ToggleButtonGroup>
-    <TextField 
+
+    {/* SEARCH FOR CITY DETAILS BY ZIP */}
+    {searchType === 'zip' ? (
+
+      <TextField 
         value={searchTerm} 
-        label={searchType==='zip' ? "Try 10002" : searchType==='city' ? "Try Denver" : "Try Maryland"}
+        label="Try 10002"
         onChange={(e) => handleInput(e)}
         sx={{
     '& .MuiInputBase-input': {
@@ -65,6 +102,51 @@ const SearchForm = ({handleSearchEngine}) => {
     }}
         >
     </TextField>
+) : searchType==='state' ? (
+  //HANDLE STATE SEARCH FOR ZIPCODES
+  <FormControl sx={{ minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-helper-label" sx={{color: 'white'}}>State</InputLabel>
+        <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={searchTerm}
+          label="Select"
+          onChange={(e) => handleInput(e)}
+        >
+        {states.map((state) => (
+    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+      {state.name}
+    </MenuItem>
+  ))}
+        </Select>
+  </FormControl>
+
+) : //DISTANCE BETWEEN ZIPCODES 
+  ( <><TextField 
+        value={firstZip} 
+        label="Try From 10002"
+        onChange={(e) => handleFirstZip(e)}
+        sx={{
+    '& .MuiInputBase-input': {
+      fontFamily: 'Arial, sans-serif', 
+      color: 'white', },
+    }}
+        >
+    </TextField>
+    <TextField 
+        value={secondZip} 
+        label="To 14437"
+        onChange={(e) => handleSecondZip(e)}
+        sx={{
+    '& .MuiInputBase-input': {
+      fontFamily: 'Arial, sans-serif', 
+      color: 'white', },
+    }}
+        >
+    </TextField>
+    </>
+)}
+    {/* BUTTON FOR SEARCH - FAILED?  */}
     {isFailedSearch ? (<Button
       variant="contained"
       sx={{
@@ -73,13 +155,17 @@ const SearchForm = ({handleSearchEngine}) => {
     },
   }}>
     <ErrorOutlineIcon/>
-    </Button>) : (<Button onClick={handleSearch}
+    </Button>
+  ) : 
+    //SEARCH NOT FAILED YET
+    (<Button onClick={handleSearch}
       variant="contained" 
       sx={{
     ':focus': {
       backgroundColor: 'green',
     },
   }}>
+        {/* LOADING OR NEUTRAL ICON */}
         {isLoading ? <CircularProgress color="inherit" /> : <SearchIcon />}
     </Button>)}
     </>

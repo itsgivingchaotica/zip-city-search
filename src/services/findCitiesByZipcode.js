@@ -1,10 +1,14 @@
 import api from './api.js'
 
-export const findCitiesByZipcode = async (zipCode) => {
-    try {
-        const res = await api.get(`/GetZipCodeDetails/${zipCode}`);
+const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
+
+const findCitiesByZipcode = async (zipCode) => {
+    try { 
+        const res = await api.get(`/GetZipCodeDetails/${zipCode}?key=${apiKey}`);
         return res.data;
     } catch(error){
-        throw new Error(`Finding cities by zipcode failed: ${error.message}`)
+        throw error;
     }
 }
+
+export default findCitiesByZipcode

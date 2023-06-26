@@ -1,10 +1,14 @@
 import api from './api.js'
 
-export const findDistanceBetweenZipcodes = async (state) => {
+const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
+
+const findDistanceBetweenZipcodes = async (startZipcode,endZipcode) => {
     try {
-        const res = await api.get(`/CalculateDistance/ByZip?fromzipcode=${startZipCode}&tozipcode=${endZipcode}`);
+        const res = await api.get(`/CalculateDistance/ByZip?fromzipcode=${startZipcode}&tozipcode=${endZipcode}&key=${apiKey}`);
         return res.data;
     } catch(error){
-        throw new Error(`Finding cities by zipcode failed: ${error.message}`)
+        throw error;
     }
 }
+
+export default findDistanceBetweenZipcodes
