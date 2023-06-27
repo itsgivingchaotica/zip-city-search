@@ -10,7 +10,7 @@ import { SearchContext } from "../../SearchContext.js"
 
 export default function Results({handleSearchEngine}) {
 
-const { searchType, setSearchType, resultsData, setResultsData } = useContext(SearchContext);
+const { searchType, setSearchType, resultsData, setResultsData, resultType, resultTerm } = useContext(SearchContext);
 
 const [zipcodeData, setZipcodeData] = useState([])
 const [stateData, setStateData] = useState([])
@@ -19,13 +19,13 @@ const [error, setError] = useState(null);
 
   useEffect(() => {
   try {
-    if (searchType === 'zip') {
+    if (resultType === 'zip') {
       const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
       setZipcodeData(mappedData);
-    } else if (searchType === 'state') {
+    } else if (resultType === 'state') {
       const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
       setStateData(mappedData);
-    } else if (searchType === 'distance') {
+    } else if (resultType === 'distance') {
       const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
       setDistanceData(mappedData);
     }
@@ -55,24 +55,24 @@ const [error, setError] = useState(null);
 
             <Grid item xs={15} sx={{marginTop: '30px', maxWidth: '100%'}}>
             {/* BANNER DISPLAYS THE SEARCH TERM AND NUMBER OF RESULTS */}
-            {searchType === 'zip' && (
+            {resultType === 'zip' && (
               <com.Banner numResults={zipcodeData.length}/>
             )}
-            {searchType === 'state' && (
+            {resultType === 'state' && (
               <com.Banner numResults={stateData.length}/>
             )}
-            {searchType === 'distance' && (
+            {resultType === 'distance' && (
               <com.Banner />
             )}
             </Grid>
             {/* ZIPCODE SEARCH --> DETAILED QUERY OF CITY ASSOCIATED WITH THE ZIPCODE */}
-          {searchType === 'zip' && (
+          {resultType === 'zip' && (
             zipcodeData.map((item) => (
   <Grid item xs={5} id={item.ID} >
     <com.ResultCard key={item.ID} zipcodeResult={item}/>
   </Grid>
 )))}
-            {searchType === 'state' && (
+            {resultType === 'state' && (
               <Grid item xs={2} sm={8} md={12} xl={12}>
                 <com.ZipList stateResult={stateData}/>
               </Grid>
@@ -86,7 +86,7 @@ const [error, setError] = useState(null);
             )))} */}
             
             
-            {searchType === 'distance' && (
+            {resultType === 'distance' && (
               <Grid item xs={5}>
                 <com.DistanceCard distanceResult={distanceData}/> 
               </Grid>
