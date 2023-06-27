@@ -12,7 +12,11 @@ function App() {
 
   const [searchType, setSearchType] = useState('zip')
   const [searchTerm, setSearchTerm] = useState('')
+  const [resultType, setResultType] = useState('')
+  const [resultTerm, setResultTerm] = useState('')
   const [resultsData, setResultsData] = useState([])
+  const [firstZip, setFirstZip] = useState('')
+  const [secondZip, setSecondZip] = useState('')
 
   //  useEffect(() => {
   //   console.log(resultsData)
@@ -24,13 +28,19 @@ function App() {
         if (searchType === 'zip'){
           const data = await findCitiesByZipcode(searchTerm);
           setResultsData(data);
+          setResultType(searchType);
+          setResultTerm(searchTerm);
         } else if (searchType === 'state') {
           const data = await findZipcodesByState(searchTerm);
           setResultsData(data);
-        } else {
+          setResultType(searchType);
+          setResultTerm(searchTerm);
+        } else if (searchType === 'distance') {
           let zipDistanceSearch = searchTerm.split('-');
           const data = await findDistanceBetweenZipcodes(zipDistanceSearch[0],zipDistanceSearch[1]);
           setResultsData(data);
+          setResultType(searchType);
+          setResultTerm(searchTerm);
         }
     } catch (error) {
       throw error
@@ -78,7 +88,7 @@ function App() {
           <link rel="icon" href="https://img.icons8.com/color-glass/96/city-guide.png" />
           <meta name="description" content="Zip City Search" />
       </Helmet>
-      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData }}>
+      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip }}>
       <div className="navbar">
         <com.Navbar id="navbar"/>
         </div>

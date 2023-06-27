@@ -6,20 +6,49 @@ import { SearchContext } from '../../SearchContext.js'
 
 const Banner = ({numResults}) => {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
+    const { searchType, searchTerm, resultType, resultTerm } = useContext(SearchContext)
 
-    const zipSearchTerm = searchTerm.substring(0,5) + " to " +  searchTerm.substring(6, 11);
-
+    const zipSearchTerm = resultTerm.substring(0,5) + " to " +  resultTerm.substring(6, 12);
+    console.log("🚀 ~ file: Banner.jsx:12 ~ Banner ~ zipSearchTerm:", zipSearchTerm);
+    
+    
     return (
         <div>
             <Card sx={{maxWidth: '100%'}}>
-            <Stack direction="row" spacing={25} sx={{display: 'flex', justifyContent: 'space-between',alignItems: 'end', padding: '40px', backgroundColor: 'var(--gamboge)', color: 'white', textShadow: '1px 1px 2px black', whiteSpace:'nowrap'}}>
+              <Stack direction="row" spacing={25} sx={{display: 'flex', justifyContent: 'space-between',alignItems: 'end', padding: '40px', backgroundColor: 'var(--gamboge)', color: 'white', textShadow: '1px 1px 2px black', whiteSpace:'nowrap'}}>
 
-                {(searchType ==='zip' || searchType==='state') ? (<><Typography variant='h3' sx={{fontFamily: `'Mallanna', sans-serif`, padding: '10px'}}>Results for {searchTerm}</Typography> <Typography variant='h5' sx={{fontFamily: `'Mallanna', sans-serif`}}> Showing {numResults} results</Typography></> ) : (<><Typography variant='h3' sx={{fontFamily: `'Mallanna', sans-serif`, padding: '10px'}}>Results for {zipSearchTerm}</Typography> <Typography variant='h5' sx={{fontFamily: `'Mallanna', sans-serif`}}></Typography></>)}
+                {(resultType ==='zip' || resultType==='state') ? 
                 
+                (
+                  <>
+                    <Typography 
+                      variant='h3' 
+                      sx={{fontFamily: `'Mallanna', sans-serif`, padding: '10px'}}>
+                        Results for {Term}
+                    </Typography> 
+                    
+                    <Typography 
+                      variant='h5' 
+                      sx={{fontFamily: `'Mallanna', sans-serif`}}>
+                        Showing {numResults} results</Typography>
+                    
+                    </> 
+                    
+                ) : (
+                    <>
+                      <Typography 
+                        variant='h3' 
+                        sx={{fontFamily: `'Mallanna', sans-serif`, padding: '10px'}}>
+                          Results for {zipSearchTerm}
+                      </Typography> 
 
-                
-            </Stack>
+                      <Typography 
+                        variant='h5' 
+                        sx={{fontFamily: `'Mallanna', sans-serif`}}>
+                      </Typography>
+                      </>
+                )}
+              </Stack>
             </Card>
         </div>)
 }

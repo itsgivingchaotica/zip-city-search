@@ -11,14 +11,22 @@ import { com } from "../../ui"
 
 const SearchForm = ({handleSearchEngine}) => {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm, resultsData } = useContext(SearchContext)
+    const { searchType, setSearchType, searchTerm, setSearchTerm, resultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip } = useContext(SearchContext)
 
     const navigateTo = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false)
     const [isFailedSearch, setIsFailedSearch] = useState(false)
-    const [firstZip, setFirstZip] = useState('')
-    const [secondZip, setSecondZip] = useState('')
+
+    useEffect(() => {
+    handleZipInput();
+  }, [secondZip]);
+
+     const handleZipInput = () => {
+     let zipcodes = `${firstZip}-${secondZip}`;
+     setSearchTerm(zipcodes);
+     console.log("🚀 ~ file: SearchForm.jsx:38 ~ handleZipInput ~ zipcodes:", zipcodes)
+  }
 
   const handleFirstZip = (e) => {
     setFirstZip(e.target.value)
@@ -45,8 +53,6 @@ const SearchForm = ({handleSearchEngine}) => {
         setIsFailedSearch(true);
         return;
       }
-      let zipcodes = `${firstZip}-${secondZip}`;
-      setSearchTerm(zipcodes);
       setIsLoading(true);
     }
 
@@ -58,7 +64,7 @@ const SearchForm = ({handleSearchEngine}) => {
     setIsLoading(false);
   } catch (error) {
     // Handle the error appropriately (e.g., show an error message)
-    throw new Error(error.message);
+    throw error;
   }
 };
 
