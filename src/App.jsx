@@ -12,6 +12,8 @@ function App() {
 
   const [searchType, setSearchType] = useState('zip')
   const [searchTerm, setSearchTerm] = useState('')
+  const [resultType, setResultType] = useState('')
+  const [resultTerm, setResultTerm] = useState('')
   const [resultsData, setResultsData] = useState([])
 
   //  useEffect(() => {
@@ -78,7 +80,7 @@ function App() {
           <link rel="icon" href="https://img.icons8.com/color-glass/96/city-guide.png" />
           <meta name="description" content="Zip City Search" />
       </Helmet>
-      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData }}>
+      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData, resultTerm, setResultTerm, resultType, setResultType }}>
       <div className="navbar">
         <com.Navbar id="navbar"/>
         </div>

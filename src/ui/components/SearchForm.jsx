@@ -11,7 +11,7 @@ import { com } from "../../ui"
 
 const SearchForm = ({handleSearchEngine}) => {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm, resultsData } = useContext(SearchContext)
+    const { searchType, setSearchType, searchTerm, setSearchTerm, resultsData, resultTerm, setResultTerm, resultType, setResultType } = useContext(SearchContext)
 
     const navigateTo = useNavigate();
 
