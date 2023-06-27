@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useContext } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { SearchContext } from '../../SearchContext.js'
 import { com } from "../../ui"
-import { findCitiesByZipcode, findDistanceBetweenZipcodes, findZipcodesByState } from '../../services'
 import '../../styles/logo.css'
 
-export default function Home() {
+export default function Home({handleSearchEngine}) {
 
     const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
 
@@ -17,7 +16,8 @@ export default function Home() {
             <p>{error.message}</p>
             </div>
         )}
-    >
+    > 
+    <div className="margincolor">
             <div className="homepage">
             <div id="logo-animate">
                 <div className="animation">
@@ -26,6 +26,7 @@ export default function Home() {
             </div>
             <div style={{transform:'translateY(280%)',display:'flex', marginLeft: '50px'}}>
                 <com.SearchForm handleSearchEngine={handleSearchEngine}/>
+            </div>
             </div>
             </div>
         </ErrorBoundary>
