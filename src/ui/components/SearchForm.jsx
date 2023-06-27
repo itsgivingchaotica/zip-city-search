@@ -1,22 +1,17 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
-import ToggleButton from '@mui/material/ToggleButton'
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import { SearchContext } from '../../SearchContext.js'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import states from '../../helpers/states.js'
+import { ErrorBoundary } from 'react-error-boundary'
+import { com } from "../../ui"
 
 const SearchForm = ({handleSearchEngine}) => {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
+    const { searchType, setSearchType, searchTerm, setSearchTerm, resultsData } = useContext(SearchContext)
 
     const navigateTo = useNavigate();
 
@@ -33,15 +28,11 @@ const SearchForm = ({handleSearchEngine}) => {
     setSecondZip(e.target.value)
   }
 
-  const handleChangeCategory = (e) => {
-    setSearchType(e.target.value)
-  };
-
   const handleInput = (e) => {
     setSearchTerm(e.target.value)
   }
 
- const handleSearch = () => {
+ const handleSearch = async () => {
   try {
     if (searchType === 'zip' || searchType === 'state') {
       if (searchTerm === '') {
@@ -71,11 +62,16 @@ const SearchForm = ({handleSearchEngine}) => {
   }
 };
 
-console.log(searchTerm);
-
   return (
-    <>
-    <ToggleButtonGroup
+    <ErrorBoundary
+      fallbackRender={({ error }) => (
+            <div>
+            <h2>Something went wrong:</h2>
+            <p>{error.message}</p>
+            </div>
+        )}>
+        <com.CustomToggleButtonGroup/>
+    {/* <ToggleButtonGroup
       color="primary"
       value={searchType}
       exclusive
@@ -86,7 +82,7 @@ console.log(searchTerm);
       <ToggleButton value="zip">Zip</ToggleButton>
       <ToggleButton value="state">State</ToggleButton>
       <ToggleButton value="zipsDistance">Distance</ToggleButton>
-    </ToggleButtonGroup>
+    </ToggleButtonGroup> */}
 
     {/* SEARCH FOR CITY DETAILS BY ZIP */}
     {searchType === 'zip' ? (
@@ -98,28 +94,13 @@ console.log(searchTerm);
         sx={{
     '& .MuiInputBase-input': {
       fontFamily: 'Arial, sans-serif', 
-      color: 'white', },
+      color: 'white' },
     }}
         >
     </TextField>
 ) : searchType==='state' ? (
+  <com.DropdownStates handleInput={handleInput}/>
   //HANDLE STATE SEARCH FOR ZIPCODES
-  <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-helper-label" sx={{color: 'white'}}>State</InputLabel>
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          value={searchTerm}
-          label="Select"
-          onChange={(e) => handleInput(e)}
-        >
-        {states.map((state) => (
-    <MenuItem key={state.abbreviation} value={state.abbreviation}>
-      {state.name}
-    </MenuItem>
-  ))}
-        </Select>
-  </FormControl>
 
 ) : //DISTANCE BETWEEN ZIPCODES 
   ( <><TextField 
@@ -168,7 +149,7 @@ console.log(searchTerm);
         {/* LOADING OR NEUTRAL ICON */}
         {isLoading ? <CircularProgress color="inherit" /> : <SearchIcon />}
     </Button>)}
-    </>
+    </ErrorBoundary>
   );
     
 }

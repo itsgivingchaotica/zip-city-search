@@ -1,7 +1,7 @@
 .homepage {
-    background-image: url(.././smartphone-map.jpg);
+    background: url(.././smartphone-map.jpg);
     min-height: 100vh;
-    
+    margin-left: 100px;
 }
 
 .animation {
@@ -13,4 +13,8 @@
 
 #logo-animate{
     margin-left: 50px;
+}
+
+.margincolor{
+    background-color: var(--caramel);
 }

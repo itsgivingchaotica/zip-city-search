@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -9,9 +9,20 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import HomeIcon from '@mui/icons-material/Home'
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom'
 
-const ResultCard = () => {
+import { SearchContext } from "../../SearchContext.js"
+
+const ResultCard = ({zipcodeResult}) => {
+
+    const { searchType, resultsData } = useContext(SearchContext);
+
+//     useEffect(() => {
+//   Object.values(resultsData).forEach((value) => {
+//     setZipcodeData((prevData) => [...prevData, value]);
+//   });
+// }, [Object.values(resultsData)]);
+
     return (
-        <div style={{marginTop: '100px'}}>
+        <div >
         {/* BY ZIP */}
           <Card variant="outlined" sx={{ height: '100%'}}>
             {/* <Stack spacing={2}> */}
@@ -20,34 +31,34 @@ const ResultCard = () => {
             {/* EMAIL: REQUIRED */}
             <CardContent sx={{ borderBottom: '2px solid black'}}>
             <Typography variant='h4' sx={{fontFamily: `'Mallanna', sans-serif`}}>
-            Dansville, NY
+            {zipcodeResult.City}, {zipcodeResult.State}
             </Typography>
             </CardContent>
 
             {/* MOBILE PHONE: REQUIRED */}
             <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
-            State: 
+            State: {zipcodeResult.StateFullName}
             </CardContent>
 
             <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
-            Zipcode: 
+            Zipcode: {zipcodeResult.ZipCode}
             </CardContent>
 
             {/* MOBILE PHONE: REQUIRED */}
             <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
-            County: 
+            County: {zipcodeResult.CountyName}
             </CardContent>
 
             <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
             <CallIcon sx={{marginRight:'10px'}}/>
-            Area Codes: 
+            Area Codes: {zipcodeResult.AreaCode}
             </CardContent>
 
             {/* WORK PHONE: OPTIONAL */}
             {/* {work && (  */}
                 <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <LocationOnIcon sx={{marginRight:"10px"}}/>
-                    Location: 
+                    Location: {zipcodeResult.Latitude}, {zipcodeResult.Longitude}
                 </CardContent>
                 {/* )
             } */}
@@ -56,7 +67,7 @@ const ResultCard = () => {
             {/* {work && (  */}
                 <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <Groups2Icon sx={{marginRight:'10px'}}/>
-                    Population: 
+                    Population: {zipcodeResult.PopulationEstimate}
                 </CardContent>
                 {/* )
             } */}
@@ -65,7 +76,7 @@ const ResultCard = () => {
             {/* {work && (  */}
                 <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <AttachMoneyIcon sx={{marginRight:'10px'}}/>
-                    Income per Household: 
+                    Income per Household: {zipcodeResult.IncomePerHousehold}
                 </CardContent>
                 {/* )
             } */}
@@ -74,7 +85,7 @@ const ResultCard = () => {
             {/* {work && (  */}
                 <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <HomeIcon sx={{marginRight:'10px'}}/>
-                   Housholds Per Zipcode: 
+                   Housholds Per Zipcode: {zipcodeResult.HouseholdsPerZipcode}
                 </CardContent>
                 {/* )
             } */}
@@ -84,7 +95,7 @@ const ResultCard = () => {
             {/* {work && (  */}
                 <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
                 <FamilyRestroomIcon sx={{marginRight: '10px'}}/>
-                    Average Family Size: 
+                    Average Family Size: {zipcodeResult.AverageFamilySize}
                 </CardContent>
                 {/* )
             } */}

@@ -1,4 +1,5 @@
 .results {
     /* Override background styles for other pages */
-    background-image: none !important;
+    background-image: url('.././src/images/2913130.jpg');
+    background-position: center;
 }
