@@ -10,7 +10,7 @@ import { SearchContext } from "../../SearchContext.js"
 
 export default function Results({handleSearchEngine}) {
 
-const { searchType, setSearchType, resultsData, setResultsData, resultType, resultTerm } = useContext(SearchContext);
+const { searchType, setSearchType, resultsData, setResultsData, resultType, resultTerm, errorMessage, isLoading } = useContext(SearchContext);
 
 const [zipcodeData, setZipcodeData] = useState([])
 const [stateData, setStateData] = useState([])
@@ -35,104 +35,95 @@ const [error, setError] = useState(null);
 }, [resultsData]);
 
     return (
-       <ErrorBoundary
-      fallbackRender={({ error }) => (
-            <div>
-            <h2>Something went wrong:</h2>
-            <p>{error.message}</p>
-            </div>
-        )}>
-        <div className="results">
-          <div id="root">
+  <ErrorBoundary
+    fallbackRender={({ error }) => (
+      <div>
+        <h2>Something went wrong:</h2>
+        <p>{error.message}</p>
+      </div>
+    )}
+  >
+    <div className="results">
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 10, md: 15 }}
+        sx={{
+          justifyContent: "center",
+          paddingTop: '60px',
+          maxWidth: '100%',
+          paddingBottom: '100px'
+        }}
+      >
+        
 
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 10, md: 15 }} sx={{justifyContent: "center", paddingTop: '60px', maxWidth: '100%'}}>
-              
-               {/* SEARCH FORM TO CONTINUE TO ACCESS DATA FROM THE THREE ENDPOINTS */}
-              <div style={{transform:'translateY(100%)',display:'flex', marginLeft: '50px', marginBottom: '20px', padding: '10px', backgroundColor: 'var(--gamboge)', maxWidth: '100%', borderRadius:'5px 5px 5px 5px'}}>
-              <com.SearchForm handleSearchEngine={handleSearchEngine}/>
-             </div>
+        {errorMessage ? (
+          <Grid item xs={15} sx={{ marginTop: '30px', maxWidth: '100%' }}>
+           <com.Banner
+              key="zip-banner"
+              numResults='0'
+              handleSearchEngine={handleSearchEngine}
+            />
 
-
-            <Grid item xs={15} sx={{marginTop: '30px', maxWidth: '100%'}}>
-            {/* BANNER DISPLAYS THE SEARCH TERM AND NUMBER OF RESULTS */}
-            {resultType === 'zip' && (
-              <com.Banner numResults={zipcodeData.length}/>
-            )}
-            {resultType === 'state' && (
-              <com.Banner numResults={stateData.length}/>
-            )}
-            {resultType === 'distance' && (
-              <com.Banner />
-            )}
-            </Grid>
-            {/* ZIPCODE SEARCH --> DETAILED QUERY OF CITY ASSOCIATED WITH THE ZIPCODE */}
+          <Grid item xs={5}>
+            <div>Oops! Try again!</div>
+          </Grid>
+          </Grid>
+        ) : (
+          <>
+          <Grid item xs={15} sx={{ marginTop: '30px', maxWidth: '100%' }}>
+          {/* BANNER DISPLAYS THE SEARCH TERM AND NUMBER OF RESULTS */}
           {resultType === 'zip' && (
-            zipcodeData.map((item) => (
-  <Grid item xs={5} id={item.ID} >
-    <com.ResultCard key={item.ID} zipcodeResult={item}/>
-  </Grid>
-)))}
+            <com.Banner
+              key="zip-banner"
+              numResults={zipcodeData.length}
+              handleSearchEngine={handleSearchEngine}
+            />
+          )}
+          {resultType === 'state' && (
+            <com.Banner
+              key="state-banner"
+              numResults={stateData.length}
+              handleSearchEngine={handleSearchEngine}
+            />
+          )}
+          {resultType === 'distance' && (
+            <com.Banner
+              key="distance-banner"
+              handleSearchEngine={handleSearchEngine}
+            />
+          )}
+        </Grid>
+            {/* ZIPCODE SEARCH --> DETAILED QUERY OF CITY ASSOCIATED WITH THE ZIPCODE */}
+            {resultType === 'zip' && (
+              zipcodeData.map((item) => (
+                <Grid item xs={5} key={item.ID} id={item.ID} >
+                  <com.ResultCard
+                    key={`result-${item.ID}`}
+                    zipcodeResult={item}
+                  />
+                </Grid>
+              ))
+            )}
+
             {resultType === 'state' && (
               <Grid item xs={2} sm={8} md={12} xl={12}>
-                <com.ZipList stateResult={stateData}/>
+                <com.ZipList key="zip-list" stateResult={stateData} />
               </Grid>
             )}
-          
-          {/* {searchType === 'state' && (
-            stateData.map((item) => (
-              <Grid item xs={5} key={id}>
-                <com.ZipList stateResult={item}/> 
-              </Grid>
-            )))} */}
-            
-            
+
             {resultType === 'distance' && (
               <Grid item xs={5}>
-                <com.DistanceCard distanceResult={distanceData}/> 
+                <com.DistanceCard
+                  key="distance-card"
+                  distanceResult={distanceData}
+                />
               </Grid>
             )}
-          {/* <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid>
-            <Grid item xs={5}>
-              <com.ResultCard/> 
-            </Grid> */}
-            {/* <Grid item xs={5}>
-              <com.DistanceCard/>
-            </Grid> */}
-          {/* ))} */}
-    </Grid>
-            
-        </div>
-        </div>
-        </ErrorBoundary>
-    )
-        
-}
+          </>
+        )}
+      </Grid>
+    </div>
+  </ErrorBoundary>
+);
+            }

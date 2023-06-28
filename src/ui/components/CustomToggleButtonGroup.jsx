@@ -6,11 +6,15 @@ import { SearchContext } from "../../SearchContext.js"
 
 const CustomToggleButtonGroup = () => {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
+    const { searchType, setSearchType, searchTerm, setSearchTerm, setResultTerm, setFirstZip, setSecondZip } = useContext(SearchContext)
 
 
     const handleChangeCategory = (e) => {
-    setSearchType(e.target.value)
+    setSearchType(e.target.value);
+    setSearchTerm('');
+    setResultTerm('');
+    setFirstZip('');
+    setSecondZip('');
   };
 
     return (
