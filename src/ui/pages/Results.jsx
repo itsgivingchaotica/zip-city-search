@@ -65,8 +65,10 @@ const [error, setError] = useState(null);
               handleSearchEngine={handleSearchEngine}
             />
 
-          <Grid item xs={5}>
-            <div>Oops! Try again!</div>
+          <Grid container sx={{ display: 'flex', justifyContent: 'center'}}>
+         <Grid item xs={12}>
+            <com.ErrorMessage/>
+          </Grid>
           </Grid>
           </Grid>
         ) : (
