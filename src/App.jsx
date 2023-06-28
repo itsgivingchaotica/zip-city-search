@@ -22,6 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [toggleChanged, setToggleChanged] = useState(false)
   const [isFailedSearch, setIsFailedSearch] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   //  useEffect(() => {
   //   console.log(resultsData)
@@ -118,7 +119,7 @@ function App() {
           <link rel="icon" href="https://img.icons8.com/color-glass/96/city-guide.png" />
           <meta name="description" content="Zip City Search" />
       </Helmet>
-      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip, errorMessage, setErrorMessage, isLoading, setIsLoading, toggleChanged, setToggleChanged, isFailedSearch, setIsFailedSearch }}>
+      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip, errorMessage, setErrorMessage, isLoading, setIsLoading, toggleChanged, setToggleChanged, isFailedSearch, setIsFailedSearch, currentIndex, setCurrentIndex }}>
       <div className="navbar">
         <com.Navbar id="navbar"/>
         </div>
