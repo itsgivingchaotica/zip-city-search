@@ -23,9 +23,11 @@ const SearchForm = ({handleSearchEngine}) => {
   }, [secondZip]);
 
      const handleZipInput = () => {
+      if (firstZip.length > 0){
      let zipcodes = `${firstZip}-${secondZip}`;
      setSearchTerm(zipcodes);
      console.log("🚀 ~ file: SearchForm.jsx:38 ~ handleZipInput ~ zipcodes:", zipcodes)
+     }
   }
 
   const handleFirstZip = (e) => {
