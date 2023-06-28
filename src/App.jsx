@@ -15,59 +15,89 @@ function App() {
   const [resultType, setResultType] = useState('')
   const [resultTerm, setResultTerm] = useState('')
   const [resultsData, setResultsData] = useState([])
+  console.log("🚀 ~ file: App.jsx:18 ~ App ~ resultsData:", resultsData)
   const [firstZip, setFirstZip] = useState('')
   const [secondZip, setSecondZip] = useState('')
+  const [errorMessage, setErrorMessage] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [toggleChanged, setToggleChanged] = useState(false)
+  const [isFailedSearch, setIsFailedSearch] = useState(false);
 
   //  useEffect(() => {
   //   console.log(resultsData)
   // },[searchTerm])
 
+//   const displayErrorMessage = (message) => {
+//   console.log('An error occurred. Displaying error message:', message);
 
-  const handleSearchEngine = async() => {
-    try {
-        if (searchType === 'zip'){
-          const data = await findCitiesByZipcode(searchTerm);
-          setResultsData(data);
-          setResultType(searchType);
-          setResultTerm(searchTerm);
-        } else if (searchType === 'state') {
-          const data = await findZipcodesByState(searchTerm);
-          setResultsData(data);
-          setResultType(searchType);
-          setResultTerm(searchTerm);
-        } else if (searchType === 'distance') {
-          let zipDistanceSearch = searchTerm.split('-');
-          const data = await findDistanceBetweenZipcodes(zipDistanceSearch[0],zipDistanceSearch[1]);
-          setResultsData(data);
-          setResultType(searchType);
-          setResultTerm(searchTerm);
-        }
-    } catch (error) {
-      throw error
+//   return (
+//     <div>{message}</div>
+//   )
+//   // Perform actions to display the error message
+//   // For example, show a modal or update the UI with the error message
+// };
+
+
+  const handleSearchEngine = async () => {
+  try {
+    if (searchType === 'zip') {
+      const data = await findCitiesByZipcode(searchTerm);
+      if (data && data.Error) {
+        setErrorMessage(true);
+        setTimeout(() => {
+          setIsFailedSearch(true);
+        },2000)
+        setTimeout(() => {
+          setIsFailedSearch(false)
+        },4000)
+      } else {
+        setResultsData(data);
+        setResultType(searchType);
+        setResultTerm(searchTerm);
+        setErrorMessage(false); 
+      }
+    } else if (searchType === 'state') {
+      const data = await findZipcodesByState(searchTerm);
+      if (data && data.Error) {
+        setErrorMessage(true);
+        setTimeout(() => {
+          setIsFailedSearch(true);
+        },2000)
+        setTimeout(() => {
+          setIsFailedSearch(false)
+        },4000)
+      } else {
+        setResultsData(data);
+        setResultType(searchType);
+        setResultTerm(searchTerm);
+        setErrorMessage(false);
+      }
+    } else if (searchType === 'distance') {
+      let zipDistanceSearch = searchTerm.split('-');
+      const data = await findDistanceBetweenZipcodes(
+        zipDistanceSearch[0],
+        zipDistanceSearch[1]
+      );
+      if (data && data.Error) {
+        setErrorMessage(true);
+        setTimeout(() => {
+          setIsFailedSearch(true);
+        },2000)
+        setTimeout(() => {
+          setIsFailedSearch(false)
+        },4000)
+      } else {
+        setResultsData(data);
+        setResultType(searchType);
+        setResultTerm(searchTerm);
+        setErrorMessage(false);
+      }
+        console.log("🚀 ~ file: App.jsx:72 ~ handleSearchEngine ~ data:", data)
     }
-  };
-
-  //
-  // const handleSearchEngine = async() => {
-  //   try {
-  //       if (searchType === 'zip'){
-  //         const data = await findCitiesByZipcode(searchTerm);
-  //         console.log(data);
-  //         setResultsData(...resultsData, data.item);
-  //       } else if (searchType === 'state') {
-  //         const data = await findZipcodesByState(searchTerm);
-  //         console.log(data);
-  //         setResultsData(Array.from(data));
-  //       } else {
-  //         let zipDistanceSearch = searchTerm.split('-');
-  //         const data = await findDistanceBetweenZipcodes(zipDistanceSearch[0],zipDistanceSearch[1]);
-  //         console.log(data);
-  //         setResultsData();
-  //       }
-  //   } catch (error) {
-  //     throw error
-  //   }
-  // };
+  } catch (error) {
+    throw error;
+  }
+};
 
 
   return (
@@ -88,7 +118,7 @@ function App() {
           <link rel="icon" href="https://img.icons8.com/color-glass/96/city-guide.png" />
           <meta name="description" content="Zip City Search" />
       </Helmet>
-      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip }}>
+      <SearchContext.Provider value={{ searchType, setSearchType, searchTerm, setSearchTerm, resultsData, setResultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip, errorMessage, setErrorMessage, isLoading, setIsLoading, toggleChanged, setToggleChanged, isFailedSearch, setIsFailedSearch }}>
       <div className="navbar">
         <com.Navbar id="navbar"/>
         </div>

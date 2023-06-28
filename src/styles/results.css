@@ -2,4 +2,10 @@
     /* Override background styles for other pages */
     background-image: url('.././src/images/2913130.jpg');
     background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 1000px;
+    width: 100vw;
 }
+
+

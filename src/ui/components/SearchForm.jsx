@@ -9,157 +9,189 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { ErrorBoundary } from 'react-error-boundary'
 import { com } from "../../ui"
 
-const SearchForm = ({handleSearchEngine}) => {
+const SearchForm = ({ handleSearchEngine }) => {
+  const {
+    searchType,
+    setSearchType,
+    searchTerm,
+    setSearchTerm,
+    resultsData,
+    resultTerm,
+    setResultTerm,
+    resultType,
+    setResultType,
+    firstZip,
+    setFirstZip,
+    secondZip,
+    setSecondZip,
+    setErrorMessage,
+    errorMessage,
+    isLoading,
+    setIsLoading,
+    setIsFailedSearch, 
+    isFailedSearch
+  } = useContext(SearchContext);
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm, resultsData, resultTerm, setResultTerm, resultType, setResultType, firstZip, setFirstZip, secondZip, setSecondZip } = useContext(SearchContext)
+  const navigateTo = useNavigate();
 
-    const navigateTo = useNavigate();
-
-    const [isLoading, setIsLoading] = useState(false)
-    const [isFailedSearch, setIsFailedSearch] = useState(false)
-
-    useEffect(() => {
+  useEffect(() => {
     handleZipInput();
   }, [secondZip]);
 
-     const handleZipInput = () => {
-      if (firstZip.length > 0){
-     let zipcodes = `${firstZip}-${secondZip}`;
-     setSearchTerm(zipcodes);
-     console.log("🚀 ~ file: SearchForm.jsx:38 ~ handleZipInput ~ zipcodes:", zipcodes)
-     }
-  }
+  const handleZipInput = () => {
+    if (firstZip.length > 0) {
+      let zipcodes = `${firstZip}-${secondZip}`;
+      setSearchTerm(zipcodes);
+      console.log("🚀 ~ file: SearchForm.jsx:38 ~ handleZipInput ~ zipcodes:", zipcodes);
+    }
+  };
 
   const handleFirstZip = (e) => {
-    setFirstZip(e.target.value)
-  }
+    setFirstZip(e.target.value);
+  };
 
   const handleSecondZip = (e) => {
-    setSecondZip(e.target.value)
-  }
+    setSecondZip(e.target.value);
+  };
 
   const handleInput = (e) => {
-    setSearchTerm(e.target.value)
-  }
+    setSearchTerm(e.target.value);
+  };
 
- const handleSearch = async () => {
-  try {
-    if (searchType === 'zip' || searchType === 'state') {
-      if (searchTerm === '') {
-        setIsFailedSearch(true);
-        return;
+  const handleSearch = async () => {
+    try {
+      setIsFailedSearch(false);
+
+      if (errorMessage) {
+        setIsLoading(true);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 3000);
+      } else {
+        if (searchType === 'zip' || searchType === 'state') {
+          if (searchTerm === '') {
+            setIsFailedSearch(true);
+          }
+          setIsLoading(true);
+        } else {
+          if (firstZip.length !== 5 || secondZip.length !== 5) {
+            setIsFailedSearch(true);
+            setTimeout(() => {
+              setIsFailedSearch(false);
+            }, 3000);
+            return;
+          }
+          setIsLoading(true);
+        }
       }
-      setIsLoading(true);
-    } else {
-      if (firstZip.length !== 5 || secondZip.length !== 5) {
-        setIsFailedSearch(true);
-        return;
+
+      if (searchTerm.trim() !== '') {
+        handleSearchEngine();
+        // navigateTo(`/results?query=${searchTerm}`);
       }
-      setIsLoading(true);
-    }
 
-    if (searchTerm.trim() !== '') {
-      handleSearchEngine();
-      navigateTo(`/results?query=${searchTerm}`);
+      setTimeout(() => {
+        navigateTo(`/results?query=${searchTerm}`);
+        setIsLoading(false);
+      }, 3000);
+    } catch (error) {
+      throw error;
     }
-
-    setIsLoading(false);
-  } catch (error) {
-    // Handle the error appropriately (e.g., show an error message)
-    throw error;
-  }
-};
+  };
 
   return (
     <ErrorBoundary
       fallbackRender={({ error }) => (
-            <div>
-            <h2>Something went wrong:</h2>
-            <p>{error.message}</p>
-            </div>
-        )}>
-        <com.CustomToggleButtonGroup/>
-    {/* <ToggleButtonGroup
-      color="primary"
-      value={searchType}
-      exclusive
-      onChange={handleChangeCategory}
-      aria-label="Platform" 
-      sx={{backgroundColor:"white"}}
+        <div>
+          <h2>Something went wrong:</h2>
+          <p>{error.message}</p>
+        </div>
+      )}
     >
-      <ToggleButton value="zip">Zip</ToggleButton>
-      <ToggleButton value="state">State</ToggleButton>
-      <ToggleButton value="zipsDistance">Distance</ToggleButton>
-    </ToggleButtonGroup> */}
+      {/* DETERMINE SEARCHTYPE -> RESULTTYPE VIA UI BUTTON GROUP*/}
+      <com.CustomToggleButtonGroup />
 
-    {/* SEARCH FOR CITY DETAILS BY ZIP */}
-    {searchType === 'zip' ? (
+      {/* SEARCH FOR CITY DETAILS BY ZIP */}
+      {searchType === 'zip' ? (
+        <TextField
+          value={searchTerm}
+          label="Try 10002"
+          onChange={(e) => handleInput(e)}
+          sx={{
+            '& .MuiInputBase-input': {
+              fontFamily: 'Arial, sans-serif',
+              color: 'white',
+            },
+          }}
+        />
+      ) : searchType === 'state' ? (
+        <com.DropdownStates handleInput={handleInput} />
+      ) : (
+        //DISTANCE BETWEEN ZIPCODES
+        <>
+          <TextField
+            value={firstZip}
+            label="Try From 10002"
+            onChange={(e) => handleFirstZip(e)}
+            sx={{
+              '& .MuiInputBase-input': {
+                fontFamily: 'Arial, sans-serif',
+                color: 'white',
+              },
+            }}
+          />
+          <TextField
+            value={secondZip}
+            label="To 14437"
+            onChange={(e) => handleSecondZip(e)}
+            sx={{
+              '& .MuiInputBase-input': {
+                fontFamily: 'Arial, sans-serif',
+                color: 'white',
+              },
+            }}
+          />
+        </>
+      )}
 
-      <TextField 
-        value={searchTerm} 
-        label="Try 10002"
-        onChange={(e) => handleInput(e)}
-        sx={{
-    '& .MuiInputBase-input': {
-      fontFamily: 'Arial, sans-serif', 
-      color: 'white' },
-    }}
+      {/* BUTTON FOR SEARCH - FAILED?  */}
+      {isFailedSearch ? (
+        <Button
+          variant="contained"
+          onClick={handleSearch}
+          sx={{
+            backgroundColor: 'red'
+          }}
         >
-    </TextField>
-) : searchType==='state' ? (
-  <com.DropdownStates handleInput={handleInput}/>
-  //HANDLE STATE SEARCH FOR ZIPCODES
-
-) : //DISTANCE BETWEEN ZIPCODES 
-  ( <><TextField 
-        value={firstZip} 
-        label="Try From 10002"
-        onChange={(e) => handleFirstZip(e)}
-        sx={{
-    '& .MuiInputBase-input': {
-      fontFamily: 'Arial, sans-serif', 
-      color: 'white', },
-    }}
+          <ErrorOutlineIcon />
+        </Button>
+      ) : isLoading ? (
+        // LOADING ICON
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: 'green',
+            color: 'white',
+            ':hover': { color: 'white', backgroundColor: 'green' },
+          }}
         >
-    </TextField>
-    <TextField 
-        value={secondZip} 
-        label="To 14437"
-        onChange={(e) => handleSecondZip(e)}
-        sx={{
-    '& .MuiInputBase-input': {
-      fontFamily: 'Arial, sans-serif', 
-      color: 'white', },
-    }}
+          <CircularProgress color="inherit" />
+        </Button>
+      ) : (
+        // SEARCH ICON
+        <Button
+          variant="contained"
+          onClick={handleSearch}
+          sx={{
+            ':focus': { color: 'white', backgroundColor: 'green' },
+            ':hover': { color: 'white', backgroundColor: 'green' },
+          }}
         >
-    </TextField>
-    </>
-)}
-    {/* BUTTON FOR SEARCH - FAILED?  */}
-    {isFailedSearch ? (<Button
-      variant="contained"
-      sx={{
-    ':focus': {
-      backgroundColor: 'red',
-    },
-  }}>
-    <ErrorOutlineIcon/>
-    </Button>
-  ) : 
-    //SEARCH NOT FAILED YET
-    (<Button onClick={handleSearch}
-      variant="contained" 
-      sx={{
-    ':focus': {
-      backgroundColor: 'green',
-    },
-  }}>
-        {/* LOADING OR NEUTRAL ICON */}
-        {isLoading ? <CircularProgress color="inherit" /> : <SearchIcon />}
-    </Button>)}
+          <SearchIcon />
+        </Button>
+      )}
     </ErrorBoundary>
   );
-    
-}
+};
 
-export default SearchForm
+export default SearchForm;
