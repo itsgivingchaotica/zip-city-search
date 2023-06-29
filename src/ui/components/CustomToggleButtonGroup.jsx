@@ -4,34 +4,40 @@ import ToggleButton from '@mui/material/ToggleButton'
 
 import { SearchContext } from "../../SearchContext.js"
 
-const CustomToggleButtonGroup = () => {
+  const CustomToggleButtonGroup = () => {
 
-    const { searchType, setSearchType, setSearchTerm, setResultTerm, setFirstZip, setSecondZip } = useContext(SearchContext)
+  const { 
+    searchType, 
+    setSearchType, 
+    setSearchTerm, 
+    setFirstZip, 
+    setSecondZip 
+  } = useContext(SearchContext);
 
-
-    const handleChangeCategory = (e) => {
+  //CLEAR ANY PAST STATE, EVERYTHING WAS PASSED TO RESULT HOOK VARIABLES
+  const handleChangeCategory = (e) => {
     setSearchType(e.target.value);
     setSearchTerm('');
     setFirstZip('');
     setSecondZip('');
   };
 
-    return (
-        <div>
-        <ToggleButtonGroup
-      color="primary"
-      value={searchType}
-      exclusive
-      onChange={handleChangeCategory}
-      aria-label="Platform" 
-      sx={{backgroundColor:"white", height: '56px'}}
-    >
-      <ToggleButton value="zip">Zip</ToggleButton>
-      <ToggleButton value="state">State</ToggleButton>
-      <ToggleButton value="distance">Distance</ToggleButton>
-    </ToggleButtonGroup>
+  return (
+    <div>
+      <ToggleButtonGroup
+        color="primary"
+        value={searchType}
+        exclusive
+        onChange={handleChangeCategory}
+        aria-label="Platform" 
+        sx={{backgroundColor:"white", height: '56px'}}
+      >
+        <ToggleButton value="zip">Zip</ToggleButton>
+        <ToggleButton value="state">State</ToggleButton>
+        <ToggleButton value="distance">Distance</ToggleButton>
+      </ToggleButtonGroup>
     </div>
-    )
+  )
 }
 
 export default CustomToggleButtonGroup
