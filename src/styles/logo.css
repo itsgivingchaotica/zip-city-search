@@ -5,11 +5,25 @@
     max-width: 100%;
 }
 
+.homepage-mobile{
+    background-position: center;
+    background-image: url(../images/smartphone.png);
+    background-size: cover;
+    min-height: 100vh;
+    max-width: 100%;
+}
+
 .animation {
     font-family: 'Mallanna', sans-serif;
     z-index: 3;
     margin-right: 700px;
     transform: translateY(400%);
+}
+
+.animation-mobile{
+    font-family: 'Mallanna', sans-serif;
+    z-index: 3;
+    transform: translate(-30px,10px);
 }
 
 #logo-animate{

@@ -62,7 +62,7 @@ const ErrorMessage = () => {
     </Card>)
     } else if (searchType === 'distance') {
       return (
-    <Card sx={{ maxWidth: '100%', marginTop: '40px' }}>
+    <Card sx={{ marginTop: '40px' }}>
       <CardContent sx={{ borderBottom: '2px solid black' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <Skeleton animation="wave" height={60} width="80%" style={{ marginBottom: 6, alignSelf: 'center' }} />
@@ -97,7 +97,7 @@ const ErrorMessage = () => {
     }
   
     return (
-      <Card variant="outlined" sx={{ display: 'flex', height: '100%',  marginTop: '40px', alignItems: 'center'}}>
+      <Card variant="outlined" sx={{ display: 'flex', height: '100%',  marginTop: '40px', alignItems: 'center', maxWidth: '100%'}}>
       <CardContent>
         <Typography variant='h2' sx={{ fontFamily: `'Caveat', cursive`, borderBottom: '2px solid black'}}>
           Oops!

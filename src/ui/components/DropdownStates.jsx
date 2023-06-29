@@ -7,12 +7,29 @@ import states from '../../helpers/states.js'
 
 import { SearchContext } from "../../SearchContext.js"
 
-const DropdownStates = ({handleInput}) => {
+const DropdownStates = ({handleInput, background}) => {
 
-    const { searchType, setSearchType, searchTerm, setSearchTerm } = useContext(SearchContext)
+    const { searchTerm } = useContext(SearchContext)
 
     return (
-    <>
+        background ? (<>
+      <FormControl sx={{ minWidth: 120, backgroundColor:'white'}}>
+        <InputLabel id="demo-simple-select-helper-label" >State</InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={searchTerm}
+            label="Select"
+            onChange={(e) => handleInput(e)}
+          >
+            {states.map((state) => (
+              <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                  {state.name}
+              </MenuItem>
+            ))}
+          </Select>
+      </FormControl>
+    </>) : (<>
       <FormControl sx={{ minWidth: 120 }}>
         <InputLabel id="demo-simple-select-helper-label" sx={{color: 'white'}}>State</InputLabel>
           <Select
@@ -29,7 +46,8 @@ const DropdownStates = ({handleInput}) => {
             ))}
           </Select>
       </FormControl>
-    </>
+    </>)
+
     )
 }
 

@@ -1,10 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-import "../../App.css"
+import { useMediaQuery } from "@mui/material";
+import "../../App.css";
 
 const AnimatedTextCharacter = ({ text }) => {
+  //NUMBER OF LETTERS IN THE TEXT 
   const letters = Array.from(text);
-
+  //SET THE MOBILE SCREENSIZE
+  const isMobileScreen = useMediaQuery("(max-width: 414px)");
+  //DEFINE ANIMATION CONTAINER
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
@@ -12,7 +16,7 @@ const AnimatedTextCharacter = ({ text }) => {
       transition: { staggerChildren: 0.05, delayChildren: 0.05 * i },
     }),
   };
-
+  //DEFINE ANIMATED CHARACTERS
   const child = {
     visible: {
       opacity: 1,
@@ -37,20 +41,33 @@ const AnimatedTextCharacter = ({ text }) => {
   };
 
   return (
+    // ANIMATION CONTAINER
     <motion.div
-      style={{ overflow: "hidden", display: "flex", fontSize: "2rem", minWidth: "800px" }}
+      style={{
+        display: "flex",
+        transform: isMobileScreen ? "scale(0.5)" : "auto",
+        minWidth: isMobileScreen ? "320px" : "800px",
+        marginLeft: isMobileScreen ? "-15px" : "auto",
+      }}
       variants={container}
       initial="hidden"
       animate="visible"
     >
+    {/* ANIMATED CHARACTERS */}
       {letters.map((letter, index) => (
-        <motion.span variants={child} key={index} style={{
-            fontSize: index >= 13 && index <= 18 ? "3rem" : "2rem", // apply larger font to keyword
-            color: index >= 13 && index <= 18 ? "var(--oxford-blue)" : "white", //apply pop color
+        <motion.span
+          variants={child}
+          key={index}
+          style={{
+            // ALLOW VARIATION OF STYLE ON THE `WHERE` 
+            fontSize: index >= 13 && index <= 18 ? "3rem" : "2rem",
+            color: index >= 13 && index <= 18 ? "var(--oxford-blue)" : "white",
             fontWeight: index >= 13 && index <= 18 ? "bold" : "normal",
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {/* CONVERT TO UTF-8*/}
           {letter === " " ? "\u00A0" : letter}
         </motion.span>
       ))}
