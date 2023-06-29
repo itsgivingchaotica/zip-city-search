@@ -1,21 +1,17 @@
 import axios from 'axios';
 
-export async function fetchCity(event) {
-  const { zipCode } = event.queryStringParameters;
-
+const findCitiesByZipcode = async (zipCode) => {
   try {
-    const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY;
-    const response = await axios.get(`https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetZipCodeDetails/${zipCode}?key=${apiKey}`);
-    const data = response.data;
+    const response = await axios.get(`/.netlify/functions/fetchCity?zipCode=${zipCode}`);
 
-    return {
-      statusCode: 200,
-      body: data,
-    };
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('An error occurred while fetching data');
+    }
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: { error: 'An error occurred while fetching data' },
-    };
+    throw error;
   }
-}
+};
+
+export default findCitiesByZipcode;
