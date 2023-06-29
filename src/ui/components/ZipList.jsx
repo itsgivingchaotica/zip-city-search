@@ -6,7 +6,9 @@ import Skeleton from '@mui/material/Skeleton'
 import { SearchContext } from '../../SearchContext.js'
 
 const ZipList = ({ stateResult }) => {
-    const { isLoading } = useContext(SearchContext);
+    
+  const { isLoading } = useContext(SearchContext);
+
   return (
     <Card variant="outlined" sx={{ height: '100%', maxWidth: '100%' }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1 }} sx={{ maxWidth: '100%' }}>

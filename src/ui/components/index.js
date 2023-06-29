@@ -9,3 +9,4 @@ export { default as CustomToggleButtonGroup } from "./CustomToggleButtonGroup.js
 export { default as DropdownStates } from "./DropdownStates.jsx"
 export { default as ErrorMessage } from "./ErrorMessage.jsx"
 export { default as ImageLoader } from "./ImageLoader.jsx"
+export { default as MobileSearchForm } from "./MobileSearchForm.jsx"

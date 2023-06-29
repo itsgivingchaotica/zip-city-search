@@ -34,7 +34,7 @@ useEffect(() => {
   }, [isLoading]);
 
   return (
-  <img src={selectedImageUrl} alt="Random Image" style={{ maxWidth: '260px' }}/>
+    <img src={selectedImageUrl} alt="Random Image" style={{ maxWidth: '260px' }}/>
   );
 }
 

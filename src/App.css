@@ -2,12 +2,14 @@
   margin: 0 auto;
   padding: 0 auto;
   text-align: center;
+  max-width: 100%;
 }
 
 body{
   background-color: var(--alice-blue);
   padding: 0;
   margin: 0;
+  max-width: 100%;
 }
 
 .navbar {
@@ -19,8 +21,4 @@ body{
   top: 0;
   left: 0;
   width: 100%;
-}
-
-.card {
-  padding: 2em;
 }

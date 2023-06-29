@@ -12,6 +12,7 @@ import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import { SearchContext } from '../../SearchContext.js';
 
 const ResultCard = ({ zipcodeResult }) => {
+
   const { isLoading } = useContext(SearchContext);
 
   return (
@@ -28,7 +29,7 @@ const ResultCard = ({ zipcodeResult }) => {
             </Typography>
           )}
         </CardContent>
-
+        {/* STATE FULL NAME */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <Skeleton animation="wave" height={20} width="50%" style={{ marginBottom: 6 }} />
@@ -36,7 +37,7 @@ const ResultCard = ({ zipcodeResult }) => {
             <Typography>State: {zipcodeResult.StateFullName}</Typography>
           )}
         </CardContent>
-
+        {/* ZIPCODE  */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <Skeleton animation="wave" height={20} width="50%" style={{ marginBottom: 6 }} />
@@ -44,7 +45,7 @@ const ResultCard = ({ zipcodeResult }) => {
             <Typography>Zipcode: {zipcodeResult.ZipCode}</Typography>
           )}
         </CardContent>
-
+        {/* AREA CODES ASSOCIATED */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <>
@@ -58,7 +59,7 @@ const ResultCard = ({ zipcodeResult }) => {
             </>
           )}
         </CardContent>
-
+        {/* LOCATION AS LATITUDE AND LONGITUDE  */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <>
@@ -68,13 +69,13 @@ const ResultCard = ({ zipcodeResult }) => {
           ) : (
             <>
               <LocationOnIcon sx={{ marginRight: '10px' }} />
-              <Typography>
+              <Typography >
                 Location: {zipcodeResult.Latitude}, {zipcodeResult.Longitude}
               </Typography>
             </>
           )}
         </CardContent>
-
+        {/* POPULATION ESTIMATE OF LOCATION */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <>
@@ -88,7 +89,7 @@ const ResultCard = ({ zipcodeResult }) => {
             </>
           )}
         </CardContent>
-
+        {/* INCOME PER HOUSEHOLD  */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <>
@@ -102,7 +103,7 @@ const ResultCard = ({ zipcodeResult }) => {
             </>
           )}
         </CardContent>
-
+        {/* NUMBER HOUSEHOLDS FOR THE ZIPCODE */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <>
@@ -116,7 +117,7 @@ const ResultCard = ({ zipcodeResult }) => {
             </>
           )}
         </CardContent>
-
+        {/* AVERAGE FAMILY SIZE */}
         <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading ? (
             <>

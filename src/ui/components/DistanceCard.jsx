@@ -45,8 +45,8 @@ const flattenedDistanceResult = flattenObject(distanceResult);
         <CardContent sx={{ borderBottom: '2px solid black' }}>
           {isLoading ? (
             <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center'}}>
-              <Skeleton animation="wave" height={60} width="80%" style={{ marginBottom: 6,alignSelf:'center' }} />
-              <Skeleton animation="wave" height={60} width="60%" style={{ marginBottom: 10, alignSelf:'center' }} />
+              <Skeleton animation="wave" height={100} width="80%" style={{ marginBottom: 6,alignSelf:'center' }} />
+              <Skeleton animation="wave" height={100} width="60%" style={{ marginBottom: 10, alignSelf:'center' }} />
             </div>
           ) : (
             <>

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
+import { useNavigate } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import { ErrorBoundary } from 'react-error-boundary'
 import { com } from "../../ui"
@@ -8,31 +7,41 @@ import '../../styles/results.css'
 
 import { SearchContext } from "../../SearchContext.js"
 
-export default function Results({handleSearchEngine}) {
+  export default function Results({handleSearchEngine}) {
 
-const { searchType, setSearchType, resultsData, setResultsData, resultType, resultTerm, errorMessage, isLoading } = useContext(SearchContext);
+  const { resultsData, resultType, errorMessage } = useContext(SearchContext);
 
-const [zipcodeData, setZipcodeData] = useState([])
-const [stateData, setStateData] = useState([])
-const [distanceData, setDistanceData] = useState([])
-const [error, setError] = useState(null);
+  const [zipcodeData, setZipcodeData] = useState([])
+  const [stateData, setStateData] = useState([])
+  const [distanceData, setDistanceData] = useState([])
+  const [error, setError] = useState(null);
+
+  const resultNavigate = useNavigate();
 
   useEffect(() => {
-  try {
-    if (resultType === 'zip') {
-      const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
-      setZipcodeData(mappedData);
-    } else if (resultType === 'state') {
-      const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
-      setStateData(mappedData);
-    } else if (resultType === 'distance') {
-      const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
-      setDistanceData(mappedData);
+    const lastVisitedPage = localStorage.getItem('lastVisitedPage');
+    if (lastVisitedPage) {
+      resultNavigate(lastVisitedPage);
     }
-  } catch (error) {
-    setError(error);
-  }
-}, [resultsData]);
+  }, [resultNavigate]);
+
+
+  useEffect(() => {
+    try {
+      if (resultType === 'zip') {
+        const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
+        setZipcodeData(mappedData);
+      } else if (resultType === 'state') {
+        const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
+        setStateData(mappedData);
+      } else if (resultType === 'distance') {
+        const mappedData = Object.keys(resultsData).map((key) => resultsData[key]);
+        setDistanceData(mappedData);
+      }
+    } catch (error) {
+      setError(error);
+    }
+  }, [resultsData]);
 
     return (
   <ErrorBoundary
@@ -51,12 +60,11 @@ const [error, setError] = useState(null);
         sx={{
           justifyContent: "center",
           paddingTop: '60px',
-          maxWidth: '100%',
-          paddingBottom: '100px'
+          maxWidth: '100vw',
+          paddingBottom: '100px',
         }}
       >
         
-
         {errorMessage ? (
           <Grid item xs={15} sx={{ marginTop: '30px', maxWidth: '100%' }}>
            <com.Banner
@@ -66,7 +74,7 @@ const [error, setError] = useState(null);
             />
 
           <Grid container sx={{ display: 'flex', justifyContent: 'center'}}>
-         <Grid item xs={12}>
+         <Grid item xs={12} sm={10} md={8} lg={6}>
             <com.ErrorMessage/>
           </Grid>
           </Grid>
@@ -99,7 +107,7 @@ const [error, setError] = useState(null);
             {/* ZIPCODE SEARCH --> DETAILED QUERY OF CITY ASSOCIATED WITH THE ZIPCODE */}
             {resultType === 'zip' && (
               zipcodeData.map((item) => (
-                <Grid item xs={5} key={item.ID} id={item.ID} >
+                <Grid item xs={12} sm={10} md={8} lg={6} key={item.ID} id={item.ID} >
                   <com.ResultCard
                     key={`result-${item.ID}`}
                     zipcodeResult={item}
@@ -109,13 +117,13 @@ const [error, setError] = useState(null);
             )}
 
             {resultType === 'state' && (
-              <Grid item xs={2} sm={8} md={12} xl={12}>
+              <Grid item xs={12} sm={10} md={8} lg={6}>
                 <com.ZipList key="zip-list" stateResult={stateData} />
               </Grid>
             )}
 
             {resultType === 'distance' && (
-              <Grid item xs={5}>
+              <Grid item xs={12} sm={10} md={8} lg={6}>
                 <com.DistanceCard
                   key="distance-card"
                   distanceResult={distanceData}
