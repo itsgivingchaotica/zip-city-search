@@ -1,14 +1,17 @@
-import api from './api.js'
-
-const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
+import axios from 'axios';
 
 const findCitiesByZipcode = async (zipCode) => {
-    try { 
-        const res = await api.get(`/GetZipCodeDetails/${zipCode}?key=${apiKey}`);
-        return res.data;
-    } catch(error){
-        throw error;
-    }
-}
+  try {
+    const response = await axios.post('/.netlify/functions/fetch-city', { zipCode });
 
-export default findCitiesByZipcode
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('An error occurred while fetching data');
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export default findCitiesByZipcode;
