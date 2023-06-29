@@ -3,7 +3,7 @@ import axios from 'axios';
 // CONNECT TO FETCHDISTANCE NETLIFY FUNCTION, PASSING THE TWO ZIPCODES TO THE FILE VIA AXIOS.GET
 const findDistanceBetweenZipcodes = async (startZipCode, endZipCode) => {
   try {
-    const response = await axios.post(`/.netlify/functions/fetchDistance?startZipCode=${startZipCode}&endZipCode=${endZipCode}`);
+    const response = await axios.get(`/.netlify/functions/fetchDistance?startZipCode=${startZipCode}&endZipCode=${endZipCode}`);
 
     if (response.status === 200) {
       return response.data;

@@ -3,8 +3,7 @@ import axios from 'axios';
 //CONNECT TO FETCHCITY NETLIFY FUNCTION, PASSING THE ZIPCODE TO THE FILE VIA AXIOS.POST
 const findCitiesByZipcode = async (zipCode) => {
   try {
-    const response = await axios.post(`/.netlify/functions/fetchCity?zipCode=${zipCode}`, { 
-    });
+    const response = await axios.get(`/.netlify/functions/fetchCity?zipCode=${zipCode}`);
 
     if (response.status === 200) {
       return response.data;
