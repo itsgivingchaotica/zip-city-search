@@ -28,7 +28,7 @@ function App() {
     try {
       //IF SEARCHING BY ZIPCODE FOR A CITY
       if (searchType === 'zip') {
-        const data = await findCitiesByZipcode('/.netlify/functions/fetch-city',searchTerm);
+        const data = await findCitiesByZipcode(searchTerm);
       //HANDLE RESPONSE ERROR, NO ZIPCODE FOUND
       if (data && data.Error) {
         setErrorMessage(true);
