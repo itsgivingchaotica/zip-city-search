@@ -1,15 +1,21 @@
-import api from './api.js'
-// import apiKey from './apiKey.js'
+import axios from 'axios';
 
-const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
+//CONNECT TO FETCHDISTANCE NETLIFY FUNCTION, PASSING THE TWO ZIPCODES TO THE FILE VIA AXIOS.POST
+const findDistanceBetweenZipcodes = async (startZipCode, endZipCode) => {
+  try {
+    const response = await axios.post('/.netlify/functions/fetchDistance', {
+      startZipCode: startZipCode,
+      endZipCode: endZipCode
+    });
 
-const findDistanceBetweenZipcodes = async (startZipcode,endZipcode) => {
-    try {
-        const res = await api.get(`/CalculateDistance/ByZip?fromzipcode=${startZipcode}&tozipcode=${endZipcode}&key=${apiKey}`);
-        return res.data;
-    } catch(error){
-        throw error;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('An error occurred while fetching data');
     }
-}
+  } catch (error) {
+    throw error;
+  }
+};
 
-export default findDistanceBetweenZipcodes
+export default findDistanceBetweenZipcodes;
