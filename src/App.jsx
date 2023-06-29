@@ -3,11 +3,10 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { page, com } from "./ui"
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ErrorBoundary } from 'react-error-boundary'
-import { useMediaQuery } from '@mui/material';
 import './App.css'
-
 import { SearchContext } from "./SearchContext.js"
-// import { findCitiesByZipcode, findDistanceBetweenZipcodes, findZipcodesByState } from './services'
+//SERVICES: ACCESS THE NETLIFY FUNCTIONS/
+import { findCitiesByZipcode, findDistanceBetweenZipcodes, findZipcodesByState } from './services'
 
 function App() {
 
@@ -29,7 +28,7 @@ function App() {
     try {
       //IF SEARCHING BY ZIPCODE FOR A CITY
       if (searchType === 'zip') {
-        const data = await findCitiesByZipcode('/.netlify/functions/api',searchTerm);
+        const data = await findCitiesByZipcode('/.netlify/functions/fetch-city',searchTerm);
       //HANDLE RESPONSE ERROR, NO ZIPCODE FOUND
       if (data && data.Error) {
         setErrorMessage(true);

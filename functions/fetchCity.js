@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 
-export async function handler(event) {
-  const { zipCode } = JSON.parse(event.body);
+export async function fetchCity(event) {
+  const { zipCode } = event.body;
 
   try {
     const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY;
@@ -10,12 +10,12 @@ export async function handler(event) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: data,
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'An error occurred while fetching data' }),
+      body: { error: 'An error occurred while fetching data' },
     };
   }
 }

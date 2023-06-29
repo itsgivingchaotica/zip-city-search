@@ -1,14 +1,21 @@
-import api from './api.js'
+import axios from 'axios';
 
-const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
-
+//CONNECT TO FETCHZIPS NETLIFY FUNCTION, PASSING THE USA STATE TO THE FILE VIA AXIOS.POST
 const findZipcodesByState = async (state) => {
-    try {
-        const res = await api.get(`/GetAllZipCodes?state=${state}&country=US&key=${apiKey}`);
-        return res.data;
-    } catch(error){
-        throw error;
-    }
-}
+  try {
+    const response = await axios.post('/.netlify/functions/fetchZips', {
+    //state:state or just state?
+      state: state
+    });
 
-export default findZipcodesByState
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error('An error occurred while fetching data');
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export default findZipcodesByState;
