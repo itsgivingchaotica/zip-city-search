@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export async function fetchCity(event) {
-  const { zipCode } = event.body;
+  const { zipCode } = event.queryStringParameters;
 
   try {
     const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY;

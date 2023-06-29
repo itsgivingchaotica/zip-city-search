@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function fetchZips(event) {
-  const { state } = event.body;
+  const { state } = event.queryStringParameters;
 
   try {
     const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY;

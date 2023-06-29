@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export async function fetchDistance(event) {
-  const { startZipCode, endZipCode } = event.body;
+  const { startZipCode, endZipCode } = event.queryStringParameters;
 
   try {
     const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY;
