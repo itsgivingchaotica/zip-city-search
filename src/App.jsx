@@ -7,7 +7,7 @@ import { useMediaQuery } from '@mui/material';
 import './App.css'
 
 import { SearchContext } from "./SearchContext.js"
-import { findCitiesByZipcode, findDistanceBetweenZipcodes, findZipcodesByState } from './services'
+// import { findCitiesByZipcode, findDistanceBetweenZipcodes, findZipcodesByState } from './services'
 
 function App() {
 
@@ -29,7 +29,7 @@ function App() {
     try {
       //IF SEARCHING BY ZIPCODE FOR A CITY
       if (searchType === 'zip') {
-        const data = await findCitiesByZipcode(searchTerm);
+        const data = await findCitiesByZipcode('/.netlify/functions/api',searchTerm);
       //HANDLE RESPONSE ERROR, NO ZIPCODE FOUND
       if (data && data.Error) {
         setErrorMessage(true);

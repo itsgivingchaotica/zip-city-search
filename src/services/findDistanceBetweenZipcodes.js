@@ -1,7 +1,7 @@
 import api from './api.js'
-import apiKey from './apiKey.js'
+// import apiKey from './apiKey.js'
 
-// const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
+const apiKey = import.meta.env.VITE_ZIP_CODE_API_KEY
 
 const findDistanceBetweenZipcodes = async (startZipcode,endZipcode) => {
     try {
